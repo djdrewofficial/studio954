@@ -1,0 +1,158 @@
+---
+import Icon from "./Icon.astro";
+---
+
+<section class="section book" id="book">
+  <div class="book__bg" aria-hidden="true"><span class="book__ghost">954</span></div>
+
+  <div class="wrap book__grid">
+    <div class="book__copy">
+      <p class="eyebrow" data-reveal>Book a session</p>
+      <h2 class="display book__title" data-reveal style="--d:80ms">
+        let's <span class="pink">record.</span>
+      </h2>
+      <p class="lead" data-reveal style="--d:160ms">
+        Tell us what you're making. We'll send back a quote, a couple of open windows,
+        and everything you need to show up and press play.
+      </p>
+
+      <ul class="book__contact" data-reveal style="--d:240ms">
+        <li>
+          <span class="book__label">Call / text</span>
+          <a href="tel:+13057766901">305.776.6901</a>
+        </li>
+        <li>
+          <span class="book__label">Email</span>
+          <a href="mailto:hello@studio954.com">hello@studio954.com</a>
+        </li>
+        <li>
+          <span class="book__label">Find us</span>
+          <span>Fort Lauderdale, FL</span>
+        </li>
+      </ul>
+    </div>
+
+    <!--
+      NOTE: this form posts to a Formspree placeholder.
+      Swap action="https://formspree.io/f/REPLACE_ME" for your real endpoint
+      (or wire it to your own handler). Until then it won't deliver.
+    -->
+    <form
+      class="book__form"
+      action="https://formspree.io/f/REPLACE_ME"
+      method="POST"
+      data-reveal
+      style="--d:200ms"
+    >
+      <div class="field">
+        <label for="name">Your name</label>
+        <input id="name" name="name" type="text" required placeholder="First & last" autocomplete="name" />
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required placeholder="you@email.com" autocomplete="email" />
+      </div>
+      <div class="field">
+        <label for="type">What are you making?</label>
+        <select id="type" name="session_type" required>
+          <option value="" disabled selected>Pick one</option>
+          <option>Music session</option>
+          <option>DJ session</option>
+          <option>Content shoot</option>
+          <option>Podcast</option>
+          <option>Something else</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="msg">The vibe</label>
+        <textarea id="msg" name="message" rows="3" placeholder="Tell us what you're cooking up..."></textarea>
+      </div>
+      <button type="submit" class="btn book__submit">
+        Send it
+        <Icon class="book__submit-icon" />
+      </button>
+      <p class="book__fineprint">We reply within one business day. No spam, ever.</p>
+    </form>
+  </div>
+</section>
+
+<style>
+  .book { position: relative; overflow: hidden; }
+  .book__bg { position: absolute; inset: 0; pointer-events: none; display: grid; place-items: center; }
+  .book__ghost {
+    font-size: clamp(24rem, 50vw, 60rem);
+    font-weight: 800;
+    letter-spacing: -0.06em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(237, 49, 142, 0.06);
+    line-height: 1;
+  }
+  .book__grid {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr 0.9fr;
+    gap: clamp(40px, 6vw, 90px);
+    align-items: center;
+  }
+  .book__title { margin: 0.3em 0 0.4em; }
+  .book__contact { list-style: none; display: grid; gap: 1.4rem; margin-top: 2.6rem; }
+  .book__contact li { display: flex; flex-direction: column; gap: 0.3rem; }
+  .book__label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+  .book__contact a, .book__contact li > span:last-child { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; }
+  .book__contact a:hover { color: var(--pink); }
+
+  .book__form {
+    display: grid;
+    gap: 1.1rem;
+    padding: clamp(26px, 3vw, 40px);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: linear-gradient(180deg, var(--surface), var(--ink-2));
+  }
+  .field { display: grid; gap: 0.5rem; }
+  .field label {
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    background: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.98rem;
+    transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  }
+  .field textarea { resize: vertical; }
+  .field input::placeholder, .field textarea::placeholder { color: var(--faint); }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--pink);
+    box-shadow: 0 0 0 3px rgba(237, 49, 142, 0.18);
+  }
+  .field select { appearance: none; cursor: pointer; }
+
+  .book__submit { justify-content: center; margin-top: 0.4rem; }
+  .book__submit-icon { width: 20px; color: #fff; }
+  .book__fineprint { font-size: 0.78rem; color: var(--faint); text-align: center; }
+
+  @media (max-width: 900px) {
+    .book__grid { grid-template-columns: 1fr; }
+  }
+</style>

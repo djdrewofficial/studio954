@@ -1,0 +1,94 @@
+---
+const steps = [
+  {
+    n: "1",
+    word: "plug",
+    title: "Plug in",
+    body: "Tell us what you're making and book a window. We patch the room for your session before you arrive — mics, cameras, monitors, all of it.",
+  },
+  {
+    n: "2",
+    word: "play",
+    title: "Press play",
+    body: "You do your thing. Spin, talk, sing, shoot. We run the board, ride the levels, and keep the energy moving so you stay in the pocket.",
+  },
+  {
+    n: "3",
+    word: "record",
+    title: "Walk out with it",
+    body: "Files handed off the same day, edits turned around fast. Master, reel, episode — ready to drop wherever your people are watching.",
+  },
+];
+---
+
+<section class="section process" id="process">
+  <div class="wrap">
+    <div class="process__head">
+      <p class="eyebrow" data-reveal>How it works</p>
+      <h2 class="h2" data-reveal style="--d:80ms">three steps. <span class="pink">that's it.</span></h2>
+    </div>
+
+    <ol class="process__list">
+      {
+        steps.map((s, i) => (
+          <li class="step" data-reveal style={`--d:${i * 120}ms`}>
+            <span class="step__n">{s.n}</span>
+            <div class="step__main">
+              <p class="step__word">{s.word}.</p>
+              <h3 class="step__title">{s.title}</h3>
+              <p class="step__body">{s.body}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .process__head { margin-bottom: clamp(40px, 6vw, 72px); }
+  .process__head .h2 { margin-top: 0.5em; }
+
+  .process__list { list-style: none; counter-reset: step; }
+  .step {
+    display: grid;
+    grid-template-columns: clamp(80px, 14vw, 200px) 1fr;
+    gap: clamp(20px, 4vw, 60px);
+    align-items: start;
+    padding-block: clamp(28px, 4vw, 48px);
+    border-top: 1px solid var(--line);
+  }
+  .step:last-child { border-bottom: 1px solid var(--line); }
+  .step__n {
+    font-size: clamp(3rem, 9vw, 7rem);
+    font-weight: 800;
+    line-height: 0.8;
+    letter-spacing: -0.05em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--line-strong);
+    transition: -webkit-text-stroke-color 0.5s var(--ease), color 0.5s var(--ease);
+  }
+  .step:hover .step__n { -webkit-text-stroke-color: var(--pink); }
+
+  .step__word {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    text-transform: lowercase;
+    color: var(--pink);
+    line-height: 1;
+    margin-bottom: 0.6rem;
+  }
+  .step__title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin-bottom: 0.7rem;
+  }
+  .step__body { color: var(--muted); max-width: 60ch; }
+
+  @media (max-width: 620px) {
+    .step { grid-template-columns: 1fr; gap: 12px; }
+  }
+</style>

@@ -1,0 +1,57 @@
+---
+const items = [
+  "podcasts",
+  "music sessions",
+  "dj sets",
+  "content shoots",
+  "voiceover",
+  "live streams",
+  "interviews",
+  "visualizers",
+];
+---
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    {
+      Array.from({ length: 2 }).map(() => (
+        <ul class="marquee__group">
+          {items.map((it) => (
+            <li>
+              {it}
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" fill="var(--pink)" /></svg>
+            </li>
+          ))}
+        </ul>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .marquee {
+    border-block: 1px solid var(--line);
+    background: var(--ink-2);
+    padding-block: 1.1rem;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+  }
+  .marquee__track { display: flex; width: max-content; animation: scroll 32s linear infinite; }
+  .marquee:hover .marquee__track { animation-play-state: paused; }
+  .marquee__group { display: flex; align-items: center; list-style: none; }
+  .marquee__group li {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(24px, 4vw, 56px);
+    padding-inline: clamp(24px, 4vw, 56px);
+    font-size: clamp(1.4rem, 3vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    text-transform: lowercase;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  @keyframes scroll { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .marquee__track { animation: none; } }
+</style>

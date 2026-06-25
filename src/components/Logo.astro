@@ -1,0 +1,37 @@
+---
+import Icon from "./Icon.astro";
+interface Props {
+  class?: string;
+  tagline?: boolean;
+}
+const { class: cls = "", tagline = false } = Astro.props;
+---
+
+<a href="#top" class={`logo ${cls}`} aria-label="studio954 — home">
+  <span class="logo__mark"><Icon /></span>
+  <span class="logo__type">
+    <span class="logo__word"><span class="logo__s">studio</span><span class="logo__n">954</span></span>
+    {tagline && <span class="logo__tag">you play. we record.</span>}
+  </span>
+</a>
+
+<style>
+  .logo { display: inline-flex; align-items: center; gap: 0.6em; color: var(--text); }
+  .logo__mark { width: 2.4em; flex: none; color: #fff; }
+  .logo__type { display: flex; flex-direction: column; line-height: 1; }
+  .logo__word {
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -0.05em;
+    text-transform: lowercase;
+  }
+  .logo__s { color: var(--text); }
+  .logo__n { color: #fff; }
+  .logo__tag {
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    margin-top: 0.35em;
+  }
+</style>

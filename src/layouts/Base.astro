@@ -1,0 +1,131 @@
+---
+import "@fontsource-variable/montserrat";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = "studio954 — you play. we record. | Recording, podcast & content studio",
+  description = "A creative recording studio in the 954. Podcasts, DJ sessions, content shoots — plug in, press play, walk out with the master. you play. we record.",
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://studio954.com").toString();
+const ogImage = new URL("/brand/logo-horizontal-dark.png", Astro.site ?? "https://studio954.com").toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b0b0c" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/brand/icon-solid.png" />
+
+    <!-- Open Graph / social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="studio954" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Local business structured data -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "MusicVenue",
+        name: "studio954",
+        slogan: "you play. we record.",
+        description,
+        telephone: "+1-305-776-6901",
+        areaServed: "Broward County, Fort Lauderdale, FL",
+        url: "https://studio954.com",
+      })}
+    />
+  </head>
+  <body>
+    <div class="cursor-glow" aria-hidden="true"></div>
+    <slot />
+
+    <script>
+      // ---- scroll reveal ----
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add("is-in");
+              io.unobserve(e.target);
+            }
+          }
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+      );
+      document.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
+
+      // ---- cursor glow follow ----
+      const glow = document.querySelector<HTMLElement>(".cursor-glow");
+      if (glow && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+        let x = innerWidth / 2,
+          y = innerHeight / 2,
+          tx = x,
+          ty = y;
+        addEventListener("pointermove", (e) => {
+          tx = e.clientX;
+          ty = e.clientY;
+        });
+        const loop = () => {
+          x += (tx - x) * 0.12;
+          y += (ty - y) * 0.12;
+          glow.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+          requestAnimationFrame(loop);
+        };
+        loop();
+      }
+
+      // ---- nav condense on scroll ----
+      const nav = document.querySelector(".nav");
+      if (nav) {
+        const onScroll = () => nav.classList.toggle("is-scrolled", scrollY > 24);
+        onScroll();
+        addEventListener("scroll", onScroll, { passive: true });
+      }
+
+      // ---- mobile menu ----
+      const burger = document.querySelector<HTMLElement>(".nav__burger");
+      const menu = document.querySelector<HTMLElement>(".nav__links");
+      burger?.addEventListener("click", () => {
+        const open = document.body.classList.toggle("menu-open");
+        burger.setAttribute("aria-expanded", String(open));
+      });
+      menu?.querySelectorAll("a").forEach((a) =>
+        a.addEventListener("click", () => {
+          document.body.classList.remove("menu-open");
+          burger?.setAttribute("aria-expanded", "false");
+        })
+      );
+
+      // ---- magnetic buttons ----
+      if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+        document.querySelectorAll<HTMLElement>("[data-magnetic]").forEach((el) => {
+          el.addEventListener("pointermove", (e) => {
+            const r = el.getBoundingClientRect();
+            const mx = e.clientX - r.left - r.width / 2;
+            const my = e.clientY - r.top - r.height / 2;
+            el.style.transform = `translate(${mx * 0.18}px, ${my * 0.28}px)`;
+          });
+          el.addEventListener("pointerleave", () => (el.style.transform = ""));
+        });
+      }
+    </script>
+  </body>
+</html>

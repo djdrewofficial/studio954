@@ -1,0 +1,86 @@
+---
+import Logo from "./Logo.astro";
+const year = new Date().getFullYear();
+const links = [
+  { href: "#work", label: "What we do" },
+  { href: "#room", label: "The room" },
+  { href: "#process", label: "Process" },
+  { href: "#rates", label: "Rates" },
+  { href: "#book", label: "Book" },
+];
+const socials = [
+  { href: "https://instagram.com/", label: "Instagram" },
+  { href: "https://tiktok.com/", label: "TikTok" },
+  { href: "https://youtube.com/", label: "YouTube" },
+];
+---
+
+<footer class="footer">
+  <div class="wrap footer__top">
+    <div class="footer__brand">
+      <Logo tagline />
+      <p class="footer__line">A recording, podcast &amp; content studio in the 954.</p>
+    </div>
+
+    <nav class="footer__nav" aria-label="Footer">
+      <span class="footer__h">Studio</span>
+      {links.map((l) => <a href={l.href}>{l.label}</a>)}
+    </nav>
+
+    <nav class="footer__nav" aria-label="Social">
+      <span class="footer__h">Follow</span>
+      {socials.map((s) => <a href={s.href} target="_blank" rel="noopener">{s.label}</a>)}
+    </nav>
+
+    <div class="footer__nav">
+      <span class="footer__h">Say hi</span>
+      <a href="tel:+13057766901">305.776.6901</a>
+      <a href="mailto:hello@studio954.com">hello@studio954.com</a>
+    </div>
+  </div>
+
+  <div class="wrap footer__bottom">
+    <span>© {year} studio954. all rights reserved.</span>
+    <span class="footer__tag">you play. we record.</span>
+  </div>
+</footer>
+
+<style>
+  .footer { border-top: 1px solid var(--line); padding-top: clamp(56px, 7vw, 90px); background: var(--ink-2); }
+  .footer__top {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+    gap: clamp(28px, 4vw, 56px);
+    padding-bottom: clamp(40px, 6vw, 70px);
+  }
+  .footer__line { color: var(--muted); margin-top: 1.2rem; max-width: 30ch; font-size: 0.92rem; }
+  .footer__nav { display: flex; flex-direction: column; gap: 0.85rem; }
+  .footer__h {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 0.4rem;
+  }
+  .footer__nav a { color: var(--muted); font-weight: 600; font-size: 0.95rem; width: fit-content; transition: color 0.3s var(--ease); }
+  .footer__nav a:hover { color: var(--pink); }
+
+  .footer__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-block: 1.8rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.82rem;
+    color: var(--faint);
+  }
+  .footer__tag { font-weight: 700; color: var(--muted); letter-spacing: -0.01em; }
+
+  @media (max-width: 760px) {
+    .footer__top { grid-template-columns: 1fr 1fr; }
+    .footer__brand { grid-column: 1 / -1; }
+  }
+</style>
