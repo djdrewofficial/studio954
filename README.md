@@ -62,8 +62,7 @@ These are sensible defaults, **not** confirmed business facts. Update them:
    `https://formspree.io/f/REPLACE_ME`. Swap in your real
    [Formspree](https://formspree.io) endpoint (or your own handler) or the form
    won't deliver.
-2. **Email** — `hello@studio954.com` is assumed. Set your real inbox
-   (Booking + Footer).
+2. **Email** — set to `hi@studio954.com` (Booking + Footer).
 3. **Rates** — all tiers say *"Custom quote"* on purpose. Add real pricing in
    `src/components/Rates.astro` when ready.
 4. **Social links** — Footer points to bare instagram/tiktok/youtube. Add your handles.
@@ -78,4 +77,4 @@ Build command `npm run build`, publish directory `dist`.
 
 ---
 
-Phone on file: **305.776.6901**. Brand & logos © studio954 / ME Graphic Designer, Inc.
+Phone on file: **954.466.1698** · email **hi@studio954.com**. Brand & logos © studio954 / ME Graphic Designer, Inc.
