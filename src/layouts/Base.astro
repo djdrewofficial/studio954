@@ -8,7 +8,7 @@ interface Props {
 }
 const {
   title = "studio954 — you play. we record. | Recording, podcast & content studio",
-  description = "A creative recording studio in the 954. Podcasts, DJ sessions, content shoots — plug in, press play, walk out with the master. you play. we record.",
+  description = "A creative studio in the 954. Podcasts, DJ sessions, content shoots, and photo shoots — plug in, press play, walk out with the reel. you play. we record.",
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://studio954.com").toString();
 const ogImage = new URL("/brand/logo-horizontal-dark.png", Astro.site ?? "https://studio954.com").toString();
@@ -43,7 +43,7 @@ const ogImage = new URL("/brand/logo-horizontal-dark.png", Astro.site ?? "https:
       type="application/ld+json"
       set:html={JSON.stringify({
         "@context": "https://schema.org",
-        "@type": "MusicVenue",
+        "@type": "LocalBusiness",
         name: "studio954",
         slogan: "you play. we record.",
         description,
