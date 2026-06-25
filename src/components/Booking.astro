@@ -69,7 +69,7 @@ import Icon from "./Icon.astro";
       </div>
       <button type="submit" class="btn book__submit">
         Send it
-        <Icon class="book__submit-icon" />
+        <span class="book__submit-icon"><Icon /></span>
       </button>
       <p class="book__fineprint">We reply within one business day. No spam, ever.</p>
     </form>
@@ -149,7 +149,7 @@ import Icon from "./Icon.astro";
   .field select { appearance: none; cursor: pointer; }
 
   .book__submit { justify-content: center; margin-top: 0.4rem; }
-  .book__submit-icon { width: 20px; color: #fff; }
+  .book__submit-icon { display: inline-flex; width: 20px; flex: none; color: #fff; }
   .book__fineprint { font-size: 0.78rem; color: var(--faint); text-align: center; }
 
   @media (max-width: 900px) {

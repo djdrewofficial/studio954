@@ -102,8 +102,8 @@ const links = [
       transition: transform 0.55s var(--ease);
     }
     .nav__links > a:not(.btn) { font-size: 1.6rem; color: var(--text); }
-    :global(body.menu-open) .nav__links { transform: none; }
-    :global(body.menu-open) .nav__burger span:first-child { transform: translateY(4px) rotate(45deg); }
-    :global(body.menu-open) .nav__burger span:last-child { transform: translateY(-4px) rotate(-45deg); }
+    .nav__links.is-open { transform: none; }
+    .nav__burger.is-open span:first-child { transform: translateY(4px) rotate(45deg); }
+    .nav__burger.is-open span:last-child { transform: translateY(-4px) rotate(-45deg); }
   }
 </style>

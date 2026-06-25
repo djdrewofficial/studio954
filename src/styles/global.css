@@ -207,3 +207,6 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
 
 /* keep content above the glow */
 .site-main { position: relative; z-index: 2; }
+
+/* lock scroll when the mobile menu is open */
+body.menu-open { overflow: hidden; }

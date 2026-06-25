@@ -6,6 +6,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
       "port": 4321
+    },
+    {
+      "name": "studio954-preview",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "preview"],
+      "port": 4321
     }
   ]
 }

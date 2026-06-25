@@ -39,7 +39,7 @@ const gear = [
     <div class="room__visual" data-reveal style="--d:160ms" aria-hidden="true">
       <div class="screen">
         <div class="screen__glow"></div>
-        <Icon class="screen__icon" />
+        <span class="screen__icon"><Icon /></span>
         <span class="screen__word">studio954</span>
         <span class="screen__tag">you play. we record.</span>
         <div class="screen__bars">
@@ -111,7 +111,7 @@ const gear = [
     inset: 0;
     background: radial-gradient(60% 50% at 50% 42%, rgba(237, 49, 142, 0.22), transparent 70%);
   }
-  .screen__icon { width: 26%; color: #fff; position: relative; }
+  .screen__icon { display: block; width: 26%; color: #fff; position: relative; }
   .screen__word {
     font-weight: 800;
     font-size: clamp(1.4rem, 3.4vw, 2.2rem);
