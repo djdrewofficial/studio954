@@ -1,0 +1,242 @@
+---
+/**
+ * Boot intro: the studio954 power-mark sits "off" (grey, lifeless). A finger
+ * swoops in and boops the power button — flash, the wave lights up pink, a
+ * shockwave ripples out, and the site powers on in colour and settles in.
+ *
+ * Progressive enhancement: the overlay only renders interactively when
+ * <html> has .is-booting (added by an inline script in <head> when motion is
+ * allowed). No JS / reduced-motion → overlay stays hidden, site loads live.
+ */
+---
+
+<div id="intro" aria-hidden="true">
+  <div class="intro__stage">
+    <!-- the power-mark, recreated inline so the boot can drive its colour + draw -->
+    <svg class="intro__mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g class="intro__ring">
+        <path d="M65.9 22 A34 34 0 1 1 34.1 22" fill="none" />
+        <line x1="50" y1="15" x2="50" y2="40" />
+      </g>
+      <path
+        class="intro__wave"
+        pathLength="1"
+        d="M14 71 C20 72 24 67 30 62 C35 58 39 67 44 67 C50 67 51 53 57 53 C62 53 63 63 68 60 C74 57 79 46 87 42"
+        fill="none"
+      />
+    </svg>
+
+    <span class="intro__shock"></span>
+    <span class="intro__boop">boop!</span>
+    <span class="intro__hand">👆</span>
+
+    <p class="intro__hint">tap to power on</p>
+  </div>
+  <span class="intro__flash"></span>
+</div>
+
+<style>
+  #intro {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: none;
+    place-items: center;
+    background: #0a0a0b;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  :global(html.is-booting) #intro { display: grid; }
+
+  .intro__stage {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: min(46vw, 260px);
+    aspect-ratio: 1;
+  }
+
+  /* ---- the mark, lifeless by default ---- */
+  .intro__mark {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    animation: idle 3s ease-in-out infinite;
+  }
+  @keyframes idle { 50% { transform: translateY(-2%); } }
+
+  .intro__ring path,
+  .intro__ring line {
+    stroke: #2f2f33;
+    stroke-width: 8.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke 0.5s ease;
+  }
+  .intro__wave {
+    stroke: #2f2f33;
+    stroke-width: 7.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1; /* hidden until power-on */
+    transition: stroke 0.4s ease;
+  }
+
+  /* ---- powered on ---- */
+  #intro.is-on .intro__mark { animation: pop 0.5s var(--ease) both; }
+  @keyframes pop { 0% { transform: scale(0.9); } 55% { transform: scale(1.06); } 100% { transform: scale(1); } }
+  #intro.is-on .intro__ring path,
+  #intro.is-on .intro__ring line { stroke: #fff; }
+  #intro.is-on .intro__wave {
+    stroke: var(--pink);
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.7s var(--ease) 0.05s, stroke 0.2s ease;
+    filter: drop-shadow(0 0 14px rgba(237, 49, 142, 0.6));
+  }
+
+  /* the moment of contact — button "depresses" */
+  #intro.is-press .intro__mark { transform: scale(0.93); transition: transform 0.12s ease; }
+
+  /* ---- the finger ---- */
+  .intro__hand {
+    position: absolute;
+    bottom: -8%;
+    left: 50%;
+    font-size: clamp(46px, 9vw, 84px);
+    line-height: 1;
+    transform: translate(-50%, 150%) rotate(-8deg);
+    opacity: 0;
+    filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.5));
+    transition: transform 0.7s var(--ease), opacity 0.4s ease;
+  }
+  #intro.is-enter .intro__hand { transform: translate(-50%, 36%) rotate(-8deg); opacity: 1; }
+  #intro.is-press .intro__hand { transform: translate(-50%, 14%) rotate(-8deg); transition: transform 0.16s ease; }
+  #intro.is-leaving .intro__hand { transform: translate(-50%, 150%) rotate(-8deg); opacity: 0; }
+
+  /* ---- shockwave ring ---- */
+  .intro__shock {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid var(--pink);
+    opacity: 0;
+    pointer-events: none;
+  }
+  #intro.is-on .intro__shock { animation: shock 0.9s var(--ease) forwards; }
+  @keyframes shock {
+    0% { transform: scale(0.55); opacity: 0.9; }
+    100% { transform: scale(2.4); opacity: 0; }
+  }
+
+  /* ---- "boop!" ---- */
+  .intro__boop {
+    position: absolute;
+    top: 2%;
+    right: -6%;
+    font-weight: 800;
+    font-size: clamp(1.1rem, 2.6vw, 1.7rem);
+    letter-spacing: -0.03em;
+    color: var(--pink);
+    transform: scale(0) rotate(-10deg);
+    opacity: 0;
+  }
+  #intro.is-on .intro__boop { animation: boop 0.7s var(--ease) forwards; }
+  @keyframes boop {
+    0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+    45% { transform: scale(1.15) rotate(-10deg); opacity: 1; }
+    100% { transform: scale(1) rotate(-10deg) translateY(-14px); opacity: 0; }
+  }
+
+  /* ---- hint ---- */
+  .intro__hint {
+    position: absolute;
+    top: calc(100% + 28px);
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #56545a;
+    animation: hint 1.8s ease-in-out infinite;
+  }
+  @keyframes hint { 50% { opacity: 0.35; } }
+  #intro.is-on .intro__hint, #intro.is-leaving .intro__hint { opacity: 0; transition: opacity 0.3s ease; }
+
+  /* ---- flash ---- */
+  .intro__flash {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.9), rgba(237, 49, 142, 0.5) 30%, transparent 60%);
+    opacity: 0;
+  }
+  #intro.is-on .intro__flash { animation: flash 0.6s ease-out forwards; }
+  @keyframes flash { 0% { opacity: 0; } 12% { opacity: 1; } 100% { opacity: 0; } }
+
+  /* ---- overlay leave ---- */
+  #intro {
+    opacity: 1;
+    transition: opacity 0.7s var(--ease), visibility 0.7s;
+  }
+  #intro.is-leaving { opacity: 0; visibility: hidden; }
+
+  @media (prefers-reduced-motion: reduce) {
+    #intro { display: none !important; }
+  }
+</style>
+
+<script>
+  const intro = document.getElementById("intro");
+  const booting = document.documentElement.classList.contains("is-booting");
+
+  const goLive = () => {
+    document.documentElement.classList.remove("is-booting");
+    document.documentElement.classList.add("is-live");
+    document.dispatchEvent(new CustomEvent("studio954:live"));
+  };
+
+  if (!intro || !booting) {
+    // nothing to boot — make sure the page is live
+    if (booting) goLive();
+  } else {
+    const timers: number[] = [];
+    const at = (ms: number, fn: () => void) => timers.push(window.setTimeout(fn, ms));
+    let finished = false;
+
+    const teardown = () => {
+      intro.classList.add("is-leaving");
+      goLive();
+      at(750, () => {
+        intro.style.display = "none";
+      });
+    };
+
+    const powerOn = () => {
+      if (finished) return;
+      finished = true;
+      timers.forEach(clearTimeout);
+      intro.classList.remove("is-press");
+      intro.classList.add("is-on");
+      // let the flash + colour land, then reveal the live site
+      window.setTimeout(teardown, 620);
+    };
+
+    // auto-played boot timeline
+    requestAnimationFrame(() => intro.classList.add("is-enter"));
+    at(1450, () => intro.classList.add("is-press"));
+    at(1700, powerOn);
+
+    // let an impatient (or curious) visitor press it themselves
+    const onSkip = () => powerOn();
+    intro.addEventListener("pointerdown", onSkip, { once: true });
+    window.addEventListener("keydown", onSkip, { once: true });
+
+    // safety net: never trap the user behind the overlay
+    at(6000, () => {
+      if (!finished) teardown();
+    });
+  }
+</script>

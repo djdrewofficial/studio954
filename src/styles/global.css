@@ -210,3 +210,15 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
 
 /* lock scroll when the mobile menu is open */
 body.menu-open { overflow: hidden; }
+
+/* ----------  boot / power-on  ---------- */
+/* the whole site sits desaturated + slightly scaled until the power button is
+   pressed, then floods to colour and settles into place. The live state resolves
+   to filter/transform:none so the fixed nav keeps its viewport anchor (a lingering
+   filter/transform would establish a containing block and break position:fixed). */
+#stage { transition: filter 0.9s ease, transform 1s var(--ease); }
+html.is-booting #stage {
+  filter: grayscale(1) brightness(0.4);
+  transform: scale(1.05);
+}
+html.is-booting body { overflow: hidden; }

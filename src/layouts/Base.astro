@@ -1,6 +1,7 @@
 ---
 import "@fontsource-variable/montserrat";
 import "../styles/global.css";
+import Intro from "../components/Intro.astro";
 
 interface Props {
   title?: string;
@@ -20,6 +21,16 @@ const ogImage = new URL("/brand/logo-horizontal-dark.png", Astro.site ?? "https:
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0b0b0c" />
+
+    <!-- power-on boot flag: set before paint so the page starts dimmed, never flashes live first -->
+    <script is:inline>
+      try {
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          document.documentElement.classList.add("is-booting");
+        }
+      } catch (e) {}
+    </script>
+
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -55,10 +66,11 @@ const ogImage = new URL("/brand/logo-horizontal-dark.png", Astro.site ?? "https:
   </head>
   <body>
     <div class="cursor-glow" aria-hidden="true"></div>
-    <slot />
+    <Intro />
+    <div id="stage"><slot /></div>
 
     <script>
-      // ---- scroll reveal ----
+      // ---- scroll reveal (held until the site "powers on") ----
       const io = new IntersectionObserver(
         (entries) => {
           for (const e of entries) {
@@ -70,7 +82,13 @@ const ogImage = new URL("/brand/logo-horizontal-dark.png", Astro.site ?? "https:
         },
         { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
       );
-      document.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
+      const startReveals = () =>
+        document.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
+      if (document.documentElement.classList.contains("is-booting")) {
+        document.addEventListener("studio954:live", startReveals, { once: true });
+      } else {
+        startReveals();
+      }
 
       // ---- cursor glow follow ----
       const glow = document.querySelector<HTMLElement>(".cursor-glow");
