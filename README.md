@@ -69,6 +69,9 @@ These are sensible defaults, **not** confirmed business facts. Update them:
 5. **Domain** — `site` in `astro.config.mjs` is `https://studio954.com`. Change if needed
    (affects canonical URLs + sitemap).
 6. **Address** — only "Fort Lauderdale, FL" is shown. Add a full address if you want a map.
+7. **Room photo** — `public/img/studio-room-render.jpg` is a **3D render** of the
+   build-out (labeled as such on the page). Swap in real photography when it's shot
+   and drop the "3D render" badge/caption in `src/components/Room.astro`.
 
 ## Deploy
 

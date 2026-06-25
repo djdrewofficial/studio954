@@ -1,20 +1,18 @@
 ---
-import Icon from "./Icon.astro";
 const stats = [
   { k: "954", v: "our area code, our sound" },
-  { k: "4K", v: "multi-cam video on every session" },
+  { k: "4K", v: "Sony multi-cam on every session" },
   { k: "00:00", v: "setup time — it's already patched" },
   { k: "7", v: "days a week, by appointment" },
 ];
 const gear = [
-  "Treated live room",
-  "Neumann + Shure mics",
-  "Universal Audio chain",
-  "4K cinema cameras",
-  "Lit cyc wall",
-  "DJ booth — CDJs & controllers",
+  "4K Sony cameras",
+  "Rode podcast hardware",
+  "Shure microphones",
+  "QSC audio system",
   "Cue-mixed headphone sends",
-  "Stream encoder",
+  "Bring your controller — or rent ours",
+  "CDJs coming soon",
 ];
 ---
 
@@ -36,17 +34,22 @@ const gear = [
       </ul>
     </div>
 
-    <div class="room__visual" data-reveal style="--d:160ms" aria-hidden="true">
-      <div class="screen">
-        <div class="screen__glow"></div>
-        <span class="screen__icon"><Icon /></span>
-        <span class="screen__word">studio954</span>
-        <span class="screen__tag">you play. we record.</span>
-        <div class="screen__bars">
-          {Array.from({ length: 28 }).map((_, i) => <span style={`--i:${i}`}></span>)}
-        </div>
+    <figure class="room__visual" data-reveal style="--d:160ms">
+      <div class="render">
+        <img
+          src="/img/studio-room-render.jpg"
+          alt="3D rendering of the studio954 podcast lounge — twin chairs, dual boom-arm mics and the logo on screen under an arched accent light"
+          width="1402"
+          height="1122"
+          loading="lazy"
+          decoding="async"
+        />
+        <span class="render__badge">3D render</span>
       </div>
-    </div>
+      <figcaption class="render__cap">
+        A 3D rendering of our studio build-out plans. Real photos coming soon.
+      </figcaption>
+    </figure>
   </div>
 
   <div class="room__stats wrap">
@@ -87,65 +90,51 @@ const gear = [
   }
   .room__gear li:hover { color: var(--text); border-color: var(--pink); }
 
-  /* CSS "screen" — evokes the brand mockup without a stock photo */
-  .room__visual { perspective: 1400px; }
-  .screen {
+  /* real render of the studio build-out */
+  .room__visual { margin: 0; }
+  .render {
     position: relative;
-    aspect-ratio: 16 / 11;
     border-radius: 20px;
-    border: 1px solid var(--line-strong);
-    background: radial-gradient(120% 120% at 50% 0%, #1b1b1e, #0a0a0b 70%);
-    box-shadow: 0 50px 120px -40px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
     overflow: hidden;
-    transform: rotateY(-9deg) rotateX(3deg);
-    transition: transform 0.7s var(--ease);
+    border: 1px solid var(--line-strong);
+    box-shadow: 0 50px 120px -40px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   }
-  .room__visual:hover .screen { transform: rotateY(0deg) rotateX(0deg); }
-  .screen__glow {
+  .render::after {
+    content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(60% 50% at 50% 42%, rgba(237, 49, 142, 0.22), transparent 70%);
+    background: radial-gradient(120% 90% at 50% 120%, rgba(237, 49, 142, 0.18), transparent 55%);
+    pointer-events: none;
   }
-  .screen__icon { display: block; width: 26%; color: #fff; position: relative; }
-  .screen__word {
-    font-weight: 800;
-    font-size: clamp(1.4rem, 3.4vw, 2.2rem);
-    letter-spacing: -0.05em;
-    margin-top: 0.4rem;
-    position: relative;
+  .render img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.8s var(--ease);
   }
-  .screen__tag {
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: var(--muted);
-    position: relative;
-  }
-  .screen__bars {
+  .room__visual:hover .render img { transform: scale(1.04); }
+  .render__badge {
     position: absolute;
-    inset: auto 0 0 0;
-    height: 30%;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    gap: 3px;
-    padding: 0 6%;
-    opacity: 0.5;
+    top: 14px;
+    left: 14px;
+    z-index: 2;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 0.4rem 0.7rem;
+    border-radius: 100px;
+    background: rgba(11, 11, 12, 0.55);
+    border: 1px solid var(--line-strong);
+    backdrop-filter: blur(8px);
   }
-  .screen__bars span {
-    flex: 1;
-    max-width: 7px;
-    border-radius: 4px 4px 0 0;
-    background: linear-gradient(var(--pink), transparent);
-    height: 30%;
-    animation: wave 1.4s ease-in-out infinite;
-    animation-delay: calc(var(--i) * -0.08s);
+  .render__cap {
+    margin-top: 0.9rem;
+    font-size: 0.8rem;
+    color: var(--faint);
+    text-align: center;
   }
-  @keyframes wave { 0%, 100% { height: 14%; } 50% { height: 90%; } }
 
   .room__stats {
     display: grid;
